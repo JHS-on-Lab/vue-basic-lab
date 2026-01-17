@@ -8,6 +8,7 @@
       <nav>
         <RouterLink :to="{ name: 'component-data-flow' }">Component Data Flow</RouterLink>
         <RouterLink :to="{ name: 'router-data-flow' }">Router Data Flow</RouterLink>
+        <RouterLink :to="{ name: 'login' }">Login</RouterLink>
       </nav>
     </header>
 
