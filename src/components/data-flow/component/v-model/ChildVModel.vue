@@ -10,10 +10,6 @@ const emit = defineEmits(['update:modelValue']);
 <template>
   <div>
     {{ label }}
-    <input
-      type="checkbox"
-      :checked="modelValue"
-      @change="emit('update:modelValue', !modelValue)"
-    />
+    <input type="checkbox" :checked="modelValue" @change="emit('update:modelValue', !modelValue)" />
   </div>
 </template>

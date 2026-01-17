@@ -15,12 +15,6 @@ const onSelect = (index) => {
     <h3>Emit 방식</h3>
     <p v-if="selected">Selected: {{ selected }}</p>
 
-    <ChildEmit
-      v-for="(item, index) in items"
-      :key="index"
-      :label="item"
-      :index="index"
-      @select="onSelect"
-    />
+    <ChildEmit v-for="(item, index) in items" :key="index" :label="item" :index="index" @select="onSelect" />
   </section>
 </template>

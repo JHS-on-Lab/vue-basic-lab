@@ -13,13 +13,8 @@ const items = ref([
   <section>
     <h3>V-Model 방식</h3>
 
-    <ChildVModel
-      v-for="(item, index) in items"
-      :key="index"
-      :label="item.label"
-      v-model="item.checked"
-    />
+    <ChildVModel v-for="(item, index) in items" :key="index" :label="item.label" v-model="item.checked" />
 
-    <p>Checked: {{ items.filter(i => i.checked).length }}</p>
+    <p>Checked: {{items.filter(i => i.checked).length}}</p>
   </section>
 </template>

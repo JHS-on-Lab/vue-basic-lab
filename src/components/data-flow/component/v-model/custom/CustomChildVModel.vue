@@ -11,11 +11,7 @@ const emit = defineEmits(['update:checked']);
 
 <template>
   <label>
-    <input
-      type="checkbox"
-      :checked="checked"
-      @change="emit('update:checked', !checked)"
-    />
+    <input type="checkbox" :checked="checked" @change="emit('update:checked', !checked)" />
     Custom v-model
   </label>
 </template>

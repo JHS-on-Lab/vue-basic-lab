@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-const router = useRouter();
+// const router = useRouter();
 
 const username = ref('');
 const password = ref('');
@@ -57,7 +57,7 @@ const handleLogout = () => {
 
         <div>
             <br />
-            
+
             <RouterLink :to="{ name: 'protected' }">Go to Protected Page</RouterLink>
         </div>
     </div>
