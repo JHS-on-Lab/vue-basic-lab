@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-// import apiClient from '@/api/axios';
+import { signin as signinApi } from '@/api/authApi';
 
 export const useAuthStore = defineStore('auth', () => {
   // state
@@ -11,30 +11,24 @@ export const useAuthStore = defineStore('auth', () => {
   const isAuthenticated = computed(() => !!token.value);
 
   // actions
-  const login = async (credentials) => {
-    // const response = await apiClient.post('/login', credentials);
-    // 로그인 API 응답 가정
-    if (credentials.username === 'tester' && credentials.password === '1234') {
-      const response = {
-        data: {
-          token: 'jwt-token-from-server',
-          username: 'testuser'
-        }
-      };
+  const signin = async (credentials) => {
+    const response = await signinApi(credentials);
 
-      token.value = response.data.token;
-      username.value = response.data.username;
+    if (response.data.data.accessToken) {
+      token.value = response.data.data.accessToken;
+      username.value = response.data.data.username;
 
       // persistence
       localStorage.setItem('token', token.value);
       localStorage.setItem('username', username.value);
       return
     }
+
     throw new Error('Invalid credentials');
 
   };
 
-  const logout = () => {
+  const signout = () => {
     token.value = null;
     username.value = null;
 
@@ -46,7 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
     token,
     username,
     isAuthenticated,
-    login,
-    logout,
+    signin,
+    signout,
   };
 });
