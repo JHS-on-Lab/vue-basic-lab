@@ -16,4 +16,5 @@ const select = () => {
     {{ label }}
     <button @click="select">Select</button>
   </div>
+  <br />
 </template>
