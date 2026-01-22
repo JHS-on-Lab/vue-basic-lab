@@ -1,14 +1,36 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores/authStore';
+import router from '@/router';
 
+/**
+ * reissue 중복 방지용 상태
+ */
+let isRefreshing = false;
+let refreshSubscribers = [];
+
+function onRefreshed(newAccessToken) {
+  refreshSubscribers.forEach((callback) => callback(newAccessToken));
+  refreshSubscribers = [];
+}
+
+function addRefreshSubscriber(callback) {
+  refreshSubscribers.push(callback);
+}
+
+/**
+ * axios instance
+ */
 const apiClient = axios.create({
-  baseURL: 'https://api.example.com',
+  baseURL: 'http://localhost:8080/api',
+  withCredentials: true, // 🔥 refresh token cookie 필수
 });
 
+/**
+ * request interceptor - access token 을 authorization header 에 포함
+ */
 apiClient.interceptors.request.use((config) => {
   const authStore = useAuthStore();
 
-  // 토큰을 헤더에 포함
   if (authStore.token) {
     config.headers.Authorization = `Bearer ${authStore.token}`;
   }
@@ -16,32 +38,80 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+/**
+ * response interceptor - access token 만료 시 reissue + retry
+ */
 apiClient.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
+  (response) => response,
+
+  async (error) => {
     const authStore = useAuthStore();
 
-    if (error.response) {
-      const status = error.response.status;
+    if (!error.response) {
+      return Promise.reject(error);
+    }
 
-      // 인증 실패
-      if (status === 401) {
-        authStore.logout();
+    const { status, data } = error.response;
+    const message = data?.message;
+    const originalRequest = error.config;
 
-        alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+    /**
+     * access token 만료 → reissue
+     */
+    if (
+      status === 401 && message === '만료된 토큰입니다.' && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-        router.push({ name: 'login' });
+      // 이미 reissue 중이면 대기
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          addRefreshSubscriber((newToken) => {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            resolve(apiClient(originalRequest));
+          });
+        });
       }
 
-      // 권한 없음
-      if (status === 403) {
-        alert('접근 권한이 없습니다.');
+      isRefreshing = true;
+
+      try {
+        // refresh token 재발급
+        const response = await apiClient.post('/auth/reissue');
+        const newToken = response.data.data.accessToken;
+
+        authStore.setToken(newToken);
+
+        onRefreshed(newToken);
+
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+        return apiClient(originalRequest);
+
+      } catch (reissueError) {
+        authStore.signout();
+        router.push({ name: 'signin' });
+        return Promise.reject(reissueError);
+      } finally {
+        isRefreshing = false;
       }
     }
 
-    // 모든 에러는 호출한 쪽에서도 처리 가능하도록 throw
+    /**
+     * 그 외 인증 오류 → 강제 로그아웃
+     */
+    if (status === 401) {
+      alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+      authStore.signout();
+      router.push({ name: 'signin' });
+    }
+
+    /**
+     * 권한 없음
+     */
+    if (status === 403) {
+      alert('접근 권한이 없습니다.');
+    }
+
     return Promise.reject(error);
   }
 );

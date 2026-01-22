@@ -1,4 +1,4 @@
-import { signup as signupApi } from '@/api/userApi'
+import { signup as signupApi, getUsers as getUsersApi } from '@/api/userApi'
 
 /**
  * 회원가입
@@ -18,4 +18,19 @@ export const signup = async (payload) => {
 
     // HTTP 요청
     await signupApi(payload)
+}
+
+/**
+ * 회원 목록 조회
+ * 
+ * @param {{
+ *  username: string,
+ *  role: 'ROLE_USER' | 'ROLE_ADMIN'
+ *  email: string,
+ *  page: number,
+ *  size: number
+ * }}
+ */
+export const getUsers = async (payload) => {
+    return await getUsersApi(payload)
 }

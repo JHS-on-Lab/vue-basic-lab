@@ -28,6 +28,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   };
 
+  const setToken = (newToken) => {
+    token.value = newToken;
+    localStorage.setItem('token', newToken);
+  };
+
   const signout = () => {
     token.value = null;
     username.value = null;
@@ -41,6 +46,7 @@ export const useAuthStore = defineStore('auth', () => {
     username,
     isAuthenticated,
     signin,
+    setToken,
     signout,
   };
 });
