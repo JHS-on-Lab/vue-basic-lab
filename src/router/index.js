@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import ComponentDataFlowView from '@/views/data-flow/ComponentDataFlowView.vue';
-import RouterDataFlowView from '@/views/data-flow/RouterDataFlowView.vue';
-import ProtectedView from '@/views/example/ProtectedView.vue';
-import SigninView from '@/views/example/SigninView.vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const routes = [
@@ -12,24 +8,29 @@ const routes = [
       {
         path: 'component',
         name: 'component-data-flow',
-        component: ComponentDataFlowView,
+        component: () => import('@/views/data-flow/ComponentView.vue'),
       },
       {
         path: 'router/:id?',
         name: 'router-data-flow',
-        component: RouterDataFlowView,
+        component: () => import('@/views/data-flow/RouterView.vue'),
       },
     ],
   },
   {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('@/views/auth/SignupView.vue'),
+  },
+  {
     path: '/signin',
     name: 'signin',
-    component: SigninView,
+    component: () => import('@/views/auth/SigninView.vue'),
   },
   {
     path: '/protected',
     name: 'protected',
-    component: ProtectedView,
+    component: () => import('@/views/ProtectedView.vue'),
     meta: {
       requiresAuth: true,
     },
