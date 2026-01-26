@@ -35,6 +35,11 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/oauth2/success',
+    name: 'oauth2-success',
+    component: () => import('@/views/auth/OAuth2SuccessView.vue'),
+  }
 ];
 
 const router = createRouter({

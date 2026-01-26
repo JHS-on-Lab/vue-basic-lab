@@ -5,5 +5,9 @@ export const signup = (payload) => {
 }
 
 export const getUsers = (payload) => {
-   return apiClient.get('users', { params: payload })
+  return apiClient.get('users', { params: payload })
+}
+
+export const getMyInfo = () => {
+  return apiClient.get('users/me')
 }
