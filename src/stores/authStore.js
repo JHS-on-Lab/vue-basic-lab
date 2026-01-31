@@ -25,12 +25,16 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     throw new Error('Invalid credentials');
-
   };
 
   const setToken = (newToken) => {
     token.value = newToken;
     localStorage.setItem('token', newToken);
+  };
+
+  const setUsername = (newUsername) => {
+    username.value = newUsername;
+    localStorage.setItem('username', newUsername);
   };
 
   const signout = () => {
@@ -47,6 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     signin,
     setToken,
+    setUsername,
     signout,
   };
 });

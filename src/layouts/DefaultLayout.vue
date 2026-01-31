@@ -21,13 +21,21 @@
             </div>
           </div>
 
-          <RouterLink class="nav-link" :to="{ name: 'signup' }">
-            Sign Up
-          </RouterLink>
+          <div class="dropdown">
+            <span class="dropdown-title">Authentication ▾</span>
 
-          <RouterLink class="nav-link" :to="{ name: 'signin' }">
-            Sign In
-          </RouterLink>
+            <div class="dropdown-menu">
+              <RouterLink class="nav-link" :to="{ name: 'signup' }">
+                Sign Up
+              </RouterLink>
+              <RouterLink class="nav-link" :to="{ name: 'signin' }">
+                Sign In
+              </RouterLink>
+              <RouterLink class="nav-link" :to="{ name: 'account-linking-status' }">
+                Account Linking Status
+              </RouterLink>
+            </div>
+          </div>
         </nav>
       </header>
 
@@ -102,7 +110,7 @@
   top: 100%;
   left: 0;
   display: none;
-  min-width: 120px;
+  min-width: 220px;
   background: #fff;
   border: 1px solid #ddd;
   padding: 8px 0;

@@ -28,9 +28,9 @@ const routes = [
     component: () => import('@/views/auth/SigninView.vue'),
   },
   {
-    path: '/protected',
-    name: 'protected',
-    component: () => import('@/views/ProtectedView.vue'),
+    path: '/account-linking-status',
+    name: 'account-linking-status',
+    component: () => import('@/views/auth/AccountLinkingStatus.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -50,6 +50,7 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore();
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    alert('You need to sign in to access this page.');
     return {
       name: 'signin',
       query: {

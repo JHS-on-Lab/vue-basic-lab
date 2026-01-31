@@ -2,11 +2,12 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
+import { getMyInfo } from '@/services/userService';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-onMounted(() => {
+onMounted(async () => {
   // hash에서 accessToken 추출
   const hash = window.location.hash;
 
@@ -27,6 +28,10 @@ onMounted(() => {
     '',
     window.location.pathname
   );
+
+  // authStore에 username 저장
+  const myInfo = await getMyInfo();
+  authStore.setUsername(myInfo.username);
 
   // 페이지로 이동
   router.replace({ name: 'signin' });
