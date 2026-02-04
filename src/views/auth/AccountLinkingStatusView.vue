@@ -8,6 +8,11 @@ const PROVIDERS = {
     key: 'GOOGLE',
     authUrl: 'http://localhost:8080/oauth2/authorization/google',
   },
+  KAKAO: {
+    name: 'Kakao',
+    key: 'KAKAO',
+    authUrl: 'http://localhost:8080/oauth2/authorization/kakao',
+  },
 };
 
 const myInfo = ref(null);

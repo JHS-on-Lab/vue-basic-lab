@@ -8,6 +8,11 @@ const PROVIDERS = {
     key: 'GOOGLE',
     authUrl: 'http://localhost:8080/oauth2/authorization/google',
   },
+  KAKAO: {
+    name: 'Kakao',
+    key: 'KAKAO',
+    authUrl: 'http://localhost:8080/oauth2/authorization/kakao',
+  },
 };
 
 const authStore = useAuthStore();
@@ -52,6 +57,8 @@ const handleSignout = () => {
       <br />
 
       <a :href="PROVIDERS.GOOGLE.authUrl" style="margin-left: 16px;"> Sign In with Google </a>
+      <br />
+      <a :href="PROVIDERS.KAKAO.authUrl" style="margin-left: 16px;"> Sign In with Kakao </a>
 
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
