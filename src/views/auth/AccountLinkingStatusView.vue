@@ -36,31 +36,24 @@ const handleGetMyInfo = async () => {
   <div>
     <h2>Account Linking Status</h2>
 
-    <div>
-      <section>
-        <h3>Connected Social Providers</h3>
+    <section>
+      <h3>Connected Social Providers</h3>
 
-        <ul>
-          <li v-for="provider in Object.values(PROVIDERS)" :key="provider.key">
-            <span :style="{
-              color: isConnected(provider.key) ? 'green' : '#999',
-              fontWeight: isConnected(provider.key) ? 'bold' : 'normal',
-            }">
-              {{ provider.name }}
-            </span>
+      <div class="provider-list">
+        <div v-for="provider in Object.values(PROVIDERS)" :key="provider.key" class="provider-item">
+          <span class="provider-name" :class="{ connected: isConnected(provider.key) }">
+            {{ provider.name }}
+          </span>
 
-            <template v-if="isConnected(provider.key)">
-              ✔ Connected
-            </template>
+          <span v-if="isConnected(provider.key)" class="provider-status connected">
+            ✔ Connected
+          </span>
 
-            <template v-else>
-              <a :href="provider.authUrl" style="margin-left: 8px;">
-                Connect
-              </a>
-            </template>
-          </li>
-        </ul>
-      </section>
-    </div>
+          <a v-else :href="provider.authUrl" class="provider-connect">
+            Connect
+          </a>
+        </div>
+      </div>
+    </section>
   </div>
 </template>

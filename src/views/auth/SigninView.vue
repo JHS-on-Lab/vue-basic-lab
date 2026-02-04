@@ -37,7 +37,7 @@ const handleSignout = () => {
   <div>
     <h2>Sign In</h2>
 
-    <!-- 로그인 안 된 상태 -->
+    <!-- 미로그인 상태 -->
     <div v-if="!authStore.isAuthenticated">
       <section>
         <input v-model="username" placeholder="Username" />

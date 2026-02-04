@@ -30,7 +30,7 @@ const routes = [
   {
     path: '/account-linking-status',
     name: 'account-linking-status',
-    component: () => import('@/views/auth/AccountLinkingStatus.vue'),
+    component: () => import('@/views/auth/AccountLinkingStatusView.vue'),
     meta: {
       requiresAuth: true,
     },

@@ -45,7 +45,7 @@ const handleSignup = async () => {
     </section>
 
     <section>
-      <h3>Contact Information</h3>
+      <h3>Additional Information</h3>
 
       <input v-model="email" type="email" placeholder="Email" />
     </section>
