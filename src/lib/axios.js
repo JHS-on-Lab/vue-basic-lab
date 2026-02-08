@@ -77,7 +77,7 @@ apiClient.interceptors.response.use(
       try {
         // refresh token 재발급
         const response = await apiClient.post('/auth/reissue');
-        const newToken = response.data.data.accessToken;
+        const newToken = response.data.data;
 
         authStore.setToken(newToken);
 

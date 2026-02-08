@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { signin as signinApi } from '@/api/authApi';
+import { getMyInfo } from '@/services/userService';
 
 export const useAuthStore = defineStore('auth', () => {
   // state
@@ -12,19 +13,23 @@ export const useAuthStore = defineStore('auth', () => {
 
   // actions
   const signin = async (credentials) => {
-    const response = await signinApi(credentials);
+    const accessToken = await signinApi(credentials);
 
-    if (response.data.data.accessToken) {
-      token.value = response.data.data.accessToken;
-      username.value = response.data.data.username;
-
-      // persistence
-      localStorage.setItem('token', token.value);
-      localStorage.setItem('username', username.value);
-      return
+    if (!accessToken) { 
+      throw new Error('Invalid credentials');
     }
+    token.value = accessToken;
 
-    throw new Error('Invalid credentials');
+    // persistence
+    localStorage.setItem('token', token.value);
+
+    await fetchMe();
+  };
+
+   const fetchMe = async () => {
+    const myInfo = await getMyInfo();
+    username.value = myInfo.username;
+    localStorage.setItem('username', username.value);
   };
 
   const setToken = (newToken) => {
@@ -50,6 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
     username,
     isAuthenticated,
     signin,
+    fetchMe,
     setToken,
     setUsername,
     signout,
