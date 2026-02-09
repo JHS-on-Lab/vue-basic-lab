@@ -5,7 +5,7 @@ import { getMyInfo, getSocialLinkUrl } from '@/services/userService';
 const PROVIDERS = {
   GOOGLE: {
     name: 'Google',
-    key: 'google',
+    key: 'GOOGLE',
   },
   KAKAO: {
     name: 'Kakao',
