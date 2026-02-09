@@ -1,17 +1,15 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { getMyInfo } from '@/services/userService';
+import { getMyInfo, getSocialLinkUrl } from '@/services/userService';
 
 const PROVIDERS = {
   GOOGLE: {
     name: 'Google',
-    key: 'GOOGLE',
-    authUrl: 'http://localhost:8080/oauth2/authorization/google',
+    key: 'google',
   },
   KAKAO: {
     name: 'Kakao',
     key: 'KAKAO',
-    authUrl: 'http://localhost:8080/oauth2/authorization/kakao',
   },
 };
 
@@ -35,6 +33,15 @@ const handleGetMyInfo = async () => {
     console.error('Failed to fetch my info:', error);
   }
 }
+
+const handleConnectSocial = async (providerKey) => {
+  try {
+    const url = await getSocialLinkUrl(providerKey);
+    window.location.href = url;
+  } catch (error) {
+    console.error('Failed to get social link url:', error);
+  }
+};
 </script>
 
 <template>
@@ -54,9 +61,9 @@ const handleGetMyInfo = async () => {
             ✔ Connected
           </span>
 
-          <a v-else :href="provider.authUrl" class="provider-connect">
+          <button v-else class="provider-connect" @click="handleConnectSocial(provider.key)">
             Connect
-          </a>
+          </button>
         </div>
       </div>
     </section>

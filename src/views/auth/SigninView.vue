@@ -5,12 +5,12 @@ import { useAuthStore } from '@/stores/authStore';
 const PROVIDERS = {
   GOOGLE: {
     name: 'Google',
-    key: 'GOOGLE',
+    key: 'google',
     authUrl: 'http://localhost:8080/oauth2/authorization/google',
   },
   KAKAO: {
     name: 'Kakao',
-    key: 'KAKAO',
+    key: 'kakao',
     authUrl: 'http://localhost:8080/oauth2/authorization/kakao',
   },
 };

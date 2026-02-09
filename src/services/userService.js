@@ -2,6 +2,7 @@ import {
     signup as signupApi,
     getUsers as getUsersApi,
     getMyInfo as getMyInfoApi,
+    getSocialLinkUrl as getSocialLinkUrlApi,
 } from '@/api/userApi'
 
 /**
@@ -45,4 +46,18 @@ export const getUsers = async (payload) => {
 export const getMyInfo = async () => {
     const response = await getMyInfoApi()
     return response.data?.data
+}
+
+/**
+ * 소셜 계정 연동 OAuth URL 반환
+ *
+ * @param {'GOOGLE'} provider
+ */
+export const getSocialLinkUrl = async (provider) => {
+    if (!provider) {
+        throw new Error('Provider is required');
+    }
+
+    const response = await getSocialLinkUrlApi(provider)
+     return response.data?.data
 }

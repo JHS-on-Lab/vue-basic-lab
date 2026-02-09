@@ -11,3 +11,7 @@ export const getUsers = (payload) => {
 export const getMyInfo = () => {
   return apiClient.get('users/me')
 }
+
+export const getSocialLinkUrl = (provider) => {
+  return apiClient.get('auth/oauth2/link/' + provider)
+}
